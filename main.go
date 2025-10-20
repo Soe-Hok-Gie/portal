@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"medsos/app"
+	"medsos/repository"
 	"os"
 
 	"github.com/joho/godotenv"

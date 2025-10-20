@@ -25,4 +25,7 @@ func main() {
 
 	//setDB
 	db := app.NewDB(userDB, passDB, hostDB, portDB, nameDB)
+
+	//pattern
+	userRepository := repository.NewUserRepository(db)
 }

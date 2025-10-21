@@ -12,6 +12,11 @@ type userControllerImp struct {
 	userService service.UserService
 }
 
+// polimerisme
+func NewUserController(userService service.UserService) UserController {
+	return &userControllerImp{userService: userService}
+}
+
 func (controller *userControllerImp) Create(writer http.ResponseWriter, request *http.Request) {
 	//membaca request body
 	decoder := json.NewDecoder(request.Body)

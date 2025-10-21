@@ -13,6 +13,11 @@ type UserServiceImp struct {
 	UserRepository repository.UserRepository
 }
 
+// polimerisme
+func NewUserService(userRepository repository.UserRepository) UserService {
+	return &UserServiceImp{UserRepository: userRepository}
+}
+
 // implementasi bisnis logic
 func (service *UserServiceImp) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
 	// tampung model domain dalam sebuah variabel

@@ -5,6 +5,7 @@ import (
 	"log"
 	"medsos/app"
 	"medsos/repository"
+	"medsos/service"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -29,4 +30,5 @@ func main() {
 
 	//pattern
 	userRepository := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepository)
 }

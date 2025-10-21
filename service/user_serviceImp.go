@@ -9,17 +9,17 @@ import (
 
 //parameternya userrepo
 
-type UserServiceImp struct {
+type userServiceImp struct {
 	UserRepository repository.UserRepository
 }
 
 // polimerisme
 func NewUserService(userRepository repository.UserRepository) UserService {
-	return &UserServiceImp{UserRepository: userRepository}
+	return &userServiceImp{UserRepository: userRepository}
 }
 
 // implementasi bisnis logic
-func (service *UserServiceImp) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
+func (service *userServiceImp) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
 	// tampung model domain dalam sebuah variabel
 	user := domain.User{
 		Username: request.Username,

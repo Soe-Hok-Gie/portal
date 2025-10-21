@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"medsos/app"
+	"medsos/controller"
 	"medsos/repository"
 	"medsos/service"
 	"os"
@@ -31,4 +32,5 @@ func main() {
 	//pattern
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
+	userController := controller.NewUserController(userService)
 }

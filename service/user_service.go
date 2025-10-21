@@ -1,6 +1,9 @@
 package service
 
-import "context"
+import (
+	"context"
+	"medsos/model/web"
+)
 
 type UserService interface {
 	//parameter keduanya representasi dari request dan response

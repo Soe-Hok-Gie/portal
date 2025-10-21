@@ -17,7 +17,7 @@ func NewUserRepository(DB *sql.DB) UserRepository {
 }
 
 // create user
-func (repository *userRepositoryImp) save(ctx context.Context, user domain.User) domain.User {
+func (repository *userRepositoryImp) Save(ctx context.Context, user domain.User) domain.User {
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)

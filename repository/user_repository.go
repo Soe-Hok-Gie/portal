@@ -6,5 +6,5 @@ import (
 )
 
 type UserRepository interface {
-	save(ctx context.Context, user domain.User) domain.User
+	Save(ctx context.Context, user domain.User) domain.User
 }

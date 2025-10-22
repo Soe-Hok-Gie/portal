@@ -30,3 +30,17 @@ func (repository *userRepositoryImp) Save(ctx context.Context, user domain.User)
 	user.Id = int(id)
 	return user
 }
+
+// update user
+func (repository *userRepositoryImp) Update(ctx context.Context, user domain.User) domain.User {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
+
+	script := "UPDATE user SET=name? WHERE id=?"
+	if _, err := tx.ExecContext(ctx, script, user.Username); err != nil {
+		panic(err)
+	}
+	return user
+
+}

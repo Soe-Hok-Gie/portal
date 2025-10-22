@@ -7,8 +7,7 @@ import (
 	"medsos/repository"
 )
 
-//parameternya userrepo
-
+// parameternya userrepo
 type userServiceImp struct {
 	UserRepository repository.UserRepository
 }
@@ -34,4 +33,23 @@ func (service *userServiceImp) Create(ctx context.Context, request web.UserCreat
 		Username: user.Username,
 	}
 	return userResponse
+}
+
+func (service *userServiceImp) Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse {
+	// tampung model domain dalam sebuah variabel
+	user := domain.User{
+		Id:       request.Id,
+		Username: request.Username,
+	}
+
+	//panggil service
+	user = service.UserRepository.Update(ctx, user)
+
+	// tampung model web response dalam sebuah variabel
+	userResponse := web.UserResponse{
+		Id:       user.Id,
+		Username: user.Username,
+	}
+	return userResponse
+
 }

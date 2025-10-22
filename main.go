@@ -1,4 +1,4 @@
-package portal
+package main
 
 import (
 	"fmt"
@@ -7,8 +7,11 @@ import (
 	"medsos/controller"
 	"medsos/repository"
 	"medsos/service"
+	"net/http"
 	"os"
 
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
 
@@ -33,4 +36,9 @@ func main() {
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
 	userController := controller.NewUserController(userService)
+
+	r := mux.NewRouter()
+	r.HandleFunc("/user", userController.Create).Methods("POST")
+	log.Fatal(http.ListenAndServe(":8080", r))
+
 }

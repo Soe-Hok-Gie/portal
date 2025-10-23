@@ -39,6 +39,8 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/user", userController.Create).Methods("POST")
+	r.HandleFunc("/user/{id}", userController.Create).Methods("PUT")
+
 	log.Fatal(http.ListenAndServe(":8080", r))
 
 }

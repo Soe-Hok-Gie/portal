@@ -37,8 +37,8 @@ func (repository *userRepositoryImp) Update(ctx context.Context, user domain.Use
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
-	script := "UPDATE user SET=name? WHERE id=?"
-	if _, err := tx.ExecContext(ctx, script, user.Username); err != nil {
+	script := "UPDATE user SET username=? WHERE id=?"
+	if _, err := tx.ExecContext(ctx, script, user.Username, user.Id); err != nil {
 		panic(err)
 	}
 	return user

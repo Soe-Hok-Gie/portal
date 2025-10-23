@@ -2,10 +2,12 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"medsos/helper"
 	"medsos/model/web"
 	"medsos/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -46,47 +48,29 @@ func (controller *userControllerImp) Create(writer http.ResponseWriter, request 
 }
 
 func (controller *userControllerImp) Update(writer http.ResponseWriter, request *http.Request) {
-	// 	decoder := json.NewDecoder(request.Body)
-
-	// ProductUpdateRequest := web.ProductpdateRequest{}
-
-	// productId := params.ByName("productId")
-	// id, err := strconv.Atoi(productId)
-	// ProductUpdateRequest.Id = id
-
-	// decoder.Decode(&ProductUpdateRequest)
-	// if err := controller.validate.Struct(ProductUpdateRequest); err != nil {
-	// 	panic(err)
-
-	// }
-
-	// if err != nil {
-	// 	panic(err)
-	// }
 
 	//ambil Id
 	vars := mux.Vars(request)
-	Id := vars["id"]
-	// 	vars := mux.Vars(r)
-	// 	idStr := vars["id"] // idStr is a string
-	// 	id, err := strconv.Atoi(idStr)
-	// 	if err != nil {
-	// 		http.Error(writer, "Invalid ID format", http.StatusBadRequest)
-	// 		return
-	// 	}
+	idStr := vars["id"]
+	id, err := strconv.Atoi(idStr)
+	helper.PanicIfError(err)
 
-	// 	fmt.Fprintf(writer, "Received item ID: %d", id)
-	// }
+	//console.log
+	fmt.Printf("user:  %v", id)
 
 	// 2. Dekode data JSON dari body permintaan
 	var user web.UserUpdateRequest
-	err := json.NewDecoder(request.Body).Decode(&user)
+	err = json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
+	fmt.Printf("%v", user)
+	//simpan id sebelum passing
+	user.Id = id
+	fmt.Printf("%v", user)
 
 	response := controller.userService.Update(request.Context(), user)
+	fmt.Printf("%v", user)
 
 	webResponse := web.Response{
 		Code:   http.StatusOK,

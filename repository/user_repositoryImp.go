@@ -51,6 +51,10 @@ func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
+	script := "SELECT id, username FROM user WHERE id=?"
+	rows, err := tx.QueryContext(ctx, script, userId)
+	helper.PanicIfError(err)
+
 }
 
 // delete

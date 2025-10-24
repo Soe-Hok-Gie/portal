@@ -2,9 +2,13 @@ package service
 
 import (
 	"context"
+	"medsos/helper"
 	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/repository"
+	"os/user"
+
+	"github.com/go-playground/validator/translations/id"
 )
 
 // parameternya userrepo
@@ -51,5 +55,13 @@ func (service *userServiceImp) Update(ctx context.Context, request web.UserUpdat
 		Username: user.Username,
 	}
 	return userResponse
+
+}
+
+func (service *userServiceImp) Delete(ctx context.Context, request id int)  {
+	user,err:= service.UserRepository.FindById(ctx,id)
+	helper.PanicIfError(err)
+
+	service.UserRepository.Delete(ctx,user)
 
 }

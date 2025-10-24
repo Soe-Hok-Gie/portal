@@ -6,6 +6,7 @@ import (
 	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/repository"
+	"medsos/service"
 	"os/user"
 
 	"github.com/go-playground/validator/translations/id"
@@ -58,7 +59,10 @@ func (service *userServiceImp) Update(ctx context.Context, request web.UserUpdat
 
 }
 
-func (service *userServiceImp) Delete(ctx context.Context, request id int)  {
+func (service *userServiceImp) 	FindById(ctx context.Context, request userId int) web.Response
+
+
+func (service *userServiceImp) Delete(ctx context.Context, request userId int)  {
 	user,err:= service.UserRepository.FindById(ctx,id)
 	helper.PanicIfError(err)
 

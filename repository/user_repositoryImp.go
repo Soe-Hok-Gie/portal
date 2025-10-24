@@ -45,6 +45,11 @@ func (repository *userRepositoryImp) Update(ctx context.Context, user domain.Use
 
 }
 
+// find by id
+func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (domain.User, error) {
+
+}
+
 // delete
 func (repository *userRepositoryImp) Delete(ctx context.Context, user domain.User) {
 	tx, err := repository.DB.Begin()

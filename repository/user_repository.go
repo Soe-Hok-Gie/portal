@@ -8,5 +8,6 @@ import (
 type UserRepository interface {
 	Save(ctx context.Context, user domain.User) domain.User
 	Update(ctx context.Context, user domain.User) domain.User
+	FindById(ctx context.Context, userId int) (domain.User, error)
 	Delete(ctx context.Context, user domain.User)
 }

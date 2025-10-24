@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"medsos/helper"
 	"medsos/model/domain"
 )
@@ -55,6 +56,15 @@ func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (
 	rows, err := tx.QueryContext(ctx, script, userId)
 	helper.PanicIfError(err)
 	defer rows.Close()
+
+	user := domain.User{}
+	if rows.Next() {
+		//ada datanya
+		rows.Scan(&user.Id, &user.Username)
+		return user, nil
+	} else {
+		return user, errors.New("node found")
+	}
 
 }
 

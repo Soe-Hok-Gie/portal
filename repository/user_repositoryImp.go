@@ -54,6 +54,7 @@ func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (
 	script := "SELECT id, username FROM user WHERE id=?"
 	rows, err := tx.QueryContext(ctx, script, userId)
 	helper.PanicIfError(err)
+	defer rows.Close()
 
 }
 

@@ -47,6 +47,9 @@ func (repository *userRepositoryImp) Update(ctx context.Context, user domain.Use
 
 // find by id
 func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (domain.User, error) {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
 
 }
 

@@ -47,5 +47,8 @@ func (repository *userRepositoryImp) Update(ctx context.Context, user domain.Use
 
 // delete
 func (repository *userRepositoryImp) Delete(ctx context.Context, user domain.User) {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
 
 }

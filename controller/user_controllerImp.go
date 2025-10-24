@@ -82,3 +82,22 @@ func (controller *userControllerImp) Update(writer http.ResponseWriter, request 
 	encoder.Encode(webResponse)
 
 }
+
+//delete
+
+func (controller *userControllerImp) Delete(writer http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	userId := vars["id"]
+	id, err := strconv.Atoi(userId)
+	helper.PanicIfError(err)
+
+	controller.userService.Delete(request.Context(), id)
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "Ok",
+	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
+
+}

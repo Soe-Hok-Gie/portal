@@ -6,4 +6,5 @@ import "net/http"
 type UserController interface {
 	Create(writer http.ResponseWriter, request *http.Request)
 	Update(writer http.ResponseWriter, request *http.Request)
+	Delete(writer http.ResponseWriter, request *http.Request)
 }

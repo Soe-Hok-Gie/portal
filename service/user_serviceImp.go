@@ -59,7 +59,17 @@ func (service *userServiceImp) Update(ctx context.Context, request web.UserUpdat
 
 }
 
-func (service *userServiceImp) 	FindById(ctx context.Context, request userId int) web.Response
+func (service *userServiceImp) 	FindById(ctx context.Context, request userId int) web.Response{
+	user,err:= service.UserRepository.FindById(ctx, userId)
+	helper.PanicIfError(err)
+	
+	userResponse := web.UserResponse{
+		Id: user.Id,
+		Username: user.Username,
+
+	}
+	return userResponse
+}
 
 
 func (service *userServiceImp) Delete(ctx context.Context, request userId int)  {

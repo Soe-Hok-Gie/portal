@@ -44,3 +44,8 @@ func (repository *userRepositoryImp) Update(ctx context.Context, user domain.Use
 	return user
 
 }
+
+// delete
+func (repository *userRepositoryImp) Delete(ctx context.Context, user domain.User) {
+
+}

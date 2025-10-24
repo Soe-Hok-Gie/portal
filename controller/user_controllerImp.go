@@ -83,8 +83,7 @@ func (controller *userControllerImp) Update(writer http.ResponseWriter, request 
 
 }
 
-//delete
-
+// delete
 func (controller *userControllerImp) Delete(writer http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	userId := vars["id"]

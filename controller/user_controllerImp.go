@@ -132,4 +132,7 @@ func (controller *userControllerImp) FindAll(writer http.ResponseWriter, request
 		Status: "OK",
 		Data:   userResponses,
 	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
 }

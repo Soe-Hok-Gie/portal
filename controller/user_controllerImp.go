@@ -121,3 +121,8 @@ func (controller *userControllerImp) Delete(writer http.ResponseWriter, request 
 	encoder.Encode(webResponse)
 
 }
+
+// findAll
+func (controller *userControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
+
+}

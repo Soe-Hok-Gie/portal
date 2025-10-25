@@ -89,4 +89,17 @@ func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User 
 	rows, err := tx.QueryContext(ctx, script)
 	helper.PanicIfError(err)
 
+	var users []domain.User
+
+	//looping
+	for rows.Next() {
+		var user domain.User
+		err := rows.Scan(
+			&user.Id,
+			&user.Username,
+		)
+		helper.PanicIfError(err)
+
+	}
+
 }

@@ -83,6 +83,8 @@ func (controller *userControllerImp) Update(writer http.ResponseWriter, request 
 
 }
 
+func (controller *userControllerImp) FindById(writer http.ResponseWriter, request *http.Request)
+
 // delete
 func (controller *userControllerImp) Delete(writer http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)

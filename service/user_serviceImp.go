@@ -73,3 +73,7 @@ func (service *userServiceImp) Delete(ctx context.Context, userId int) {
 	service.UserRepository.Delete(ctx, user)
 
 }
+
+func (service *userServiceImp) FindAll(ctx context.Context) []web.UserResponse {
+
+}

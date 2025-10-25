@@ -41,7 +41,7 @@ func main() {
 	r.HandleFunc("/user", userController.Create).Methods("POST")
 	r.HandleFunc("/user/{id}", userController.Update).Methods("PUT")
 	r.HandleFunc("/user/{id}", userController.FindById).Methods("GET")
-	r.HandleFunc("/user/{id}", userController.Delete).Methods("GET")
+	r.HandleFunc("/user/{id}", userController.Delete).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 

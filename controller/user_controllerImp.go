@@ -21,6 +21,7 @@ func NewUserController(userService service.UserService) UserController {
 	return &userControllerImp{userService: userService}
 }
 
+// create
 func (controller *userControllerImp) Create(writer http.ResponseWriter, request *http.Request) {
 	//membaca request body
 	decoder := json.NewDecoder(request.Body)
@@ -47,6 +48,7 @@ func (controller *userControllerImp) Create(writer http.ResponseWriter, request 
 
 }
 
+// update
 func (controller *userControllerImp) Update(writer http.ResponseWriter, request *http.Request) {
 
 	//ambil Id
@@ -83,7 +85,13 @@ func (controller *userControllerImp) Update(writer http.ResponseWriter, request 
 
 }
 
-func (controller *userControllerImp) FindById(writer http.ResponseWriter, request *http.Request)
+// findbyid
+func (controller *userControllerImp) FindById(writer http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	userId := vars["id"]
+	id, err := strconv.Atoi(userId)
+	helper.PanicIfError(err)
+}
 
 // delete
 func (controller *userControllerImp) Delete(writer http.ResponseWriter, request *http.Request) {

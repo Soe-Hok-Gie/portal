@@ -78,3 +78,8 @@ func (repository *userRepositoryImp) Delete(ctx context.Context, user domain.Use
 		panic(err)
 	}
 }
+
+// findAll
+func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User {
+
+}

@@ -10,4 +10,5 @@ type UserRepository interface {
 	Update(ctx context.Context, user domain.User) domain.User
 	FindById(ctx context.Context, userId int) (domain.User, error)
 	Delete(ctx context.Context, user domain.User)
+	FindAll(ctx context.Context) []domain.User
 }

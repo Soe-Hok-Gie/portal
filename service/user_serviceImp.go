@@ -78,4 +78,10 @@ func (service *userServiceImp) FindAll(ctx context.Context) []web.UserResponse {
 
 	users := service.UserRepository.FindAll(ctx)
 
+	var userResponses []web.UserResponse
+	for _, user := range users {
+		userResponses = append(userResponses, web.UserResponse(user))
+
+	}
+	return userResponses
 }

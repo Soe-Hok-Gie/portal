@@ -85,4 +85,8 @@ func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User 
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
+	script := "SELECT id, username FROM user"
+	rows, err := tx.QueryContext(ctx, script)
+	helper.PanicIfError(err)
+
 }

@@ -42,6 +42,7 @@ func main() {
 	r.HandleFunc("/user/{id}", userController.Update).Methods("PUT")
 	r.HandleFunc("/user/{id}", userController.FindById).Methods("GET")
 	r.HandleFunc("/user/{id}", userController.Delete).Methods("DELETE")
+	r.HandleFunc("/user", userController.FindAll).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 

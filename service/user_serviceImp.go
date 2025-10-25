@@ -76,4 +76,6 @@ func (service *userServiceImp) Delete(ctx context.Context, userId int) {
 
 func (service *userServiceImp) FindAll(ctx context.Context) []web.UserResponse {
 
+	users := service.UserRepository.FindAll(ctx)
+
 }

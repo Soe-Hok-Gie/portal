@@ -81,5 +81,8 @@ func (repository *userRepositoryImp) Delete(ctx context.Context, user domain.Use
 
 // findAll
 func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
 
 }

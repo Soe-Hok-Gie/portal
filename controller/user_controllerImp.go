@@ -91,6 +91,17 @@ func (controller *userControllerImp) FindById(writer http.ResponseWriter, reques
 	userId := vars["id"]
 	id, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
+
+	response := controller.userService.FindById(request.Context(), id)
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "Ok",
+		Data:   response,
+	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
+
 }
 
 // delete

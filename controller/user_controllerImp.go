@@ -126,4 +126,10 @@ func (controller *userControllerImp) Delete(writer http.ResponseWriter, request 
 func (controller *userControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
 
 	userResponses := controller.userService.FindAll(request.Context())
+
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "OK",
+		Data:   userResponses,
+	}
 }

@@ -89,6 +89,8 @@ func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User 
 	rows, err := tx.QueryContext(ctx, script)
 	helper.PanicIfError(err)
 
+	defer rows.Close()
+
 	var users []domain.User
 
 	//looping
@@ -99,7 +101,7 @@ func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User 
 			&user.Username,
 		)
 		helper.PanicIfError(err)
-
+		users = append(users, user)
 	}
-
+	return users
 }

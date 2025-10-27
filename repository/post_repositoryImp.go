@@ -16,4 +16,14 @@ func (repository *postRepositoryImp) Save(ctx context.Context, post domain.Post)
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
+	script := "INSERT INTO post (id,user_id, title, contents) VALUES (?,?,?,?)"
+	result, err := tx.ExecContext(ctx, script, post.Id, post.User_Id, post.Title, post.Content)
+	helper.PanicIfError(err)
+
+	id, err := result.LastInsertId()
+	helper.PanicIfError(err)
+
+	post.Id = int(id)
+	return post
+
 }

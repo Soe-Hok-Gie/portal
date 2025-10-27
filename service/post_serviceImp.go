@@ -17,4 +17,5 @@ func (service postServiceImp) Create(ctx context.Context, request web.PostCreate
 		Content:  request.Content,
 		CreateAt: request.CreateAt,
 	}
+	post := service.PostRepository.Create(post)
 }

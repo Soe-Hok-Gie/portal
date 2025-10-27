@@ -4,9 +4,11 @@ import (
 	"context"
 	"medsos/model/domain"
 	"medsos/model/web"
+	"medsos/repository"
 )
 
 type postServiceImp struct {
+	PostRepository repository.PostRepository
 }
 
 func (service postServiceImp) Create(ctx context.Context, request web.PostCreateRequest) web.PostCreateRequest {
@@ -17,5 +19,5 @@ func (service postServiceImp) Create(ctx context.Context, request web.PostCreate
 		Content:  request.Content,
 		CreateAt: request.CreateAt,
 	}
-	post := service.PostRepository.Create(post)
+	post = service.PostRepository.Save(ctx, post)
 }

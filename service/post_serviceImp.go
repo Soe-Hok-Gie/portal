@@ -35,4 +35,13 @@ func (service *postServiceImp) Create(ctx context.Context, request web.PostCreat
 
 }
 
-func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdateRequest) web.PostResponse
+func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdateRequest) web.PostResponse {
+	// tampung model domain dalam sebuah variabel
+	post := domain.Post{
+		Id:      request.Id,
+		User_Id: request.User_Id,
+		Title:   request.Title,
+		Content: request.Content,
+	}
+
+}

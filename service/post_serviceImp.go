@@ -44,4 +44,7 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 		Content: request.Content,
 	}
 
+	//panggil service
+	post = service.PostRepository.Update(ctx, post)
+
 }

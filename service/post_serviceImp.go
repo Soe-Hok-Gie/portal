@@ -47,4 +47,13 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 	//panggil service
 	post = service.PostRepository.Update(ctx, post)
 
+	// tampung model web response dalam sebuah variabel
+	postResponse := web.PostResponse{
+		Id:      post.Id,
+		User_Id: post.User_Id,
+		Title:   post.Title,
+		Content: post.Content,
+	}
+	return postResponse
+
 }

@@ -37,4 +37,6 @@ func (repository *postRepositoryImp) Update(ctx context.Context, post domain.Pos
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
+	script := "UPDATE post SET user_id=?, title=?,content=? WHERE id=?"
+
 }

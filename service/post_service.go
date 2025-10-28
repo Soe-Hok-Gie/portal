@@ -6,5 +6,5 @@ import (
 )
 
 type PostService interface {
-	Create(ctx context.Context, request web.PostCreateRequest) web.PostCreateRequest
+	Create(ctx context.Context, request web.PostCreateRequest) web.PostResponse
 }

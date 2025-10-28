@@ -31,3 +31,7 @@ func (repository *postRepositoryImp) Save(ctx context.Context, post domain.Post)
 	return post
 
 }
+
+func (repository *postRepositoryImp) Update(ctx context.Context, post domain.Post) domain.Post {
+
+}

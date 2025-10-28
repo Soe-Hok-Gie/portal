@@ -34,3 +34,5 @@ func (service *postServiceImp) Create(ctx context.Context, request web.PostCreat
 	return postResponse
 
 }
+
+func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdateRequest) web.PostResponse

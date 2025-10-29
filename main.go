@@ -37,6 +37,11 @@ func main() {
 	userService := service.NewUserService(userRepository)
 	userController := controller.NewUserController(userService)
 
+	//patern post
+	postRepository := repository.NewPostRepository(db)
+	postService := service.NewPostService(postRepository)
+	userController := controller.NewPostController(postService)
+
 	r := mux.NewRouter()
 	r.HandleFunc("/user", userController.Create).Methods("POST")
 	r.HandleFunc("/user/{id}", userController.Update).Methods("PUT")

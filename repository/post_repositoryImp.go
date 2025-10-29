@@ -45,4 +45,7 @@ func (repository *postRepositoryImp) Update(ctx context.Context, post domain.Pos
 }
 func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) domain.Post {
 
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
 }

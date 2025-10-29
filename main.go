@@ -49,6 +49,10 @@ func main() {
 	r.HandleFunc("/user/{id}", userController.Delete).Methods("DELETE")
 	r.HandleFunc("/user", userController.FindAll).Methods("GET")
 
+	//router post
+	r.HandleFunc("/post", postController.Save).Methods("POST")
+	r.HandleFunc("/post/{id}", postController.Update).Methods("PUT")
+
 	log.Fatal(http.ListenAndServe(":8080", r))
 
 }

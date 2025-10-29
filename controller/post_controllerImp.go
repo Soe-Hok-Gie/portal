@@ -58,4 +58,7 @@ func (controller *postControllerImp) Update(writer http.ResponseWriter, request 
 	//simpan id sebelum dipassing
 	post.Id = id
 
+	//panggil service
+	response = controller.postService.Update(request.Context(), post)
+
 }

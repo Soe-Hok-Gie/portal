@@ -15,6 +15,11 @@ type postControllerImp struct {
 	postService service.PostService
 }
 
+// polimerisme
+func NewPostController() PostController {
+	return &postControllerImp{postService: postService}
+}
+
 func (controller *postControllerImp) Save(writer http.ResponseWriter, request *http.Request) {
 	//membaca request body
 	decoder := json.NewDecoder(request.Body)

@@ -21,6 +21,13 @@ func (controller *postControllerImp) Save(writer http.ResponseWriter, request *h
 	helper.PanicIfError(err)
 
 	//memanggil service dan mengembalikan response
-	response = controller.postService.Create(request.Context(), result)
+	response := controller.postService.Create(request.Context(), result)
+
+	//membuat standart response
+	webResponse := web.Response{
+		Code:   http.StatusCreated,
+		Status: http.StatusText(http.StatusCreated),
+		Data:   response,
+	}
 
 }

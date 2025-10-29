@@ -48,4 +48,9 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) d
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
+
+	script := "SELECT id, title FROM post WHERE id=?"
+	rows, err := tx.QueryContext(ctx, script, postId)
+	helper.PanicIfError(err)
+
 }

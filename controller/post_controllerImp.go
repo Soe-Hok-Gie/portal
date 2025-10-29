@@ -16,7 +16,7 @@ type postControllerImp struct {
 }
 
 // polimerisme
-func NewPostController() PostController {
+func NewPostController(postService service.PostService) PostController {
 	return &postControllerImp{postService: postService}
 }
 

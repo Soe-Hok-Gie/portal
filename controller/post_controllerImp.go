@@ -20,4 +20,7 @@ func (controller *postControllerImp) Save(writer http.ResponseWriter, request *h
 	err := decoder.Decode(&result)
 	helper.PanicIfError(err)
 
+	//memanggil service dan mengembalikan response
+	response = controller.postService.Create(request.Context(), result)
+
 }

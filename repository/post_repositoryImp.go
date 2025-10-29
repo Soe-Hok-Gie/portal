@@ -43,3 +43,6 @@ func (repository *postRepositoryImp) Update(ctx context.Context, post domain.Pos
 	}
 	return post
 }
+func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) domain.Post {
+
+}

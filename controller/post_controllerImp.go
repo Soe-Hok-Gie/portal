@@ -30,4 +30,11 @@ func (controller *postControllerImp) Save(writer http.ResponseWriter, request *h
 		Data:   response,
 	}
 
+	//mencetak header json dan melakukan proses encoding
+	writer.Header().Add("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusCreated)
+	encoder := json.NewEncoder(writer)
+	err = encoder.Encode(webResponse)
+	helper.PanicIfError(err)
+
 }

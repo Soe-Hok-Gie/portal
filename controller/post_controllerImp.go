@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"encoding/json"
+	"medsos/helper"
+	"medsos/model/web"
 	"medsos/service"
 	"net/http"
 )
@@ -10,5 +13,11 @@ type postControllerImp struct {
 }
 
 func (controller *postControllerImp) Save(writer http.ResponseWriter, request *http.Request) {
+	//membaca request body
+	decoder := json.NewDecoder(request.Body)
+	//mengembalikan result, result diambil dari model web
+	result := web.PostCreateRequest{}
+	err := decoder.Decode(&result)
+	helper.PanicIfError(err)
 
 }

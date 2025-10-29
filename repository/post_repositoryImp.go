@@ -52,5 +52,8 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) d
 	script := "SELECT id, title FROM post WHERE id=?"
 	rows, err := tx.QueryContext(ctx, script, postId)
 	helper.PanicIfError(err)
+	defer rows.Close()
+
+	post := domain.Post{}
 
 }

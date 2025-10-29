@@ -38,3 +38,7 @@ func (controller *postControllerImp) Save(writer http.ResponseWriter, request *h
 	helper.PanicIfError(err)
 
 }
+
+func (controller *postControllerImp) Update(writer http.ResponseWriter, request *http.Request) {
+
+}

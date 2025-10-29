@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"medsos/helper"
 	"medsos/model/domain"
 )
@@ -56,7 +57,10 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) d
 
 	post := domain.Post{}
 	if rows.Next() {
-
+		rows.Scan(&post.Id, &post.Title)
+		return post, nil
+	} else {
+		return post, errors.New("node found")
 	}
 
 }

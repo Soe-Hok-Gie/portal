@@ -20,7 +20,7 @@ func NewPostController(postService service.PostService) PostController {
 	return &postControllerImp{postService: postService}
 }
 
-func (controller *postControllerImp) Save(writer http.ResponseWriter, request *http.Request) {
+func (controller *postControllerImp) Create(writer http.ResponseWriter, request *http.Request) {
 	//membaca request body
 	decoder := json.NewDecoder(request.Body)
 	//mengembalikan result, result diambil dari model web

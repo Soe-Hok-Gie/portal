@@ -49,4 +49,13 @@ func (controller *postControllerImp) Update(writer http.ResponseWriter, request 
 	id, err := strconv.Atoi(idString)
 	helper.PanicIfError(err)
 
+	//buat var untuk menampung web.postupdaterequest
+	// Dekode data JSON dari body permintaan
+	var post web.PostUpdateRequest
+	err = json.NewDecoder(request.Body).Decode(&post)
+	helper.PanicIfError(err)
+
+	//simpan id sebelum dipassing
+	post.Id = id
+
 }

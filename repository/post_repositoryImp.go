@@ -55,5 +55,8 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) d
 	defer rows.Close()
 
 	post := domain.Post{}
+	if rows.Next() {
+
+	}
 
 }

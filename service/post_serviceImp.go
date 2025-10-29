@@ -11,9 +11,12 @@ type postServiceImp struct {
 	PostRepository repository.PostRepository
 }
 
+// polimerisme
+func NewPostService(postRepository repository.PostRepository) PostService {
+	return &postServiceImp{PostRepository: postRepository}
+}
 func (service *postServiceImp) Create(ctx context.Context, request web.PostCreateRequest) web.PostResponse {
 	// tampung model domain dalam sebuah variabel
-
 	post := domain.Post{
 		User_Id:  request.User_Id,
 		Title:    request.Title,

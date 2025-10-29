@@ -67,5 +67,10 @@ func (controller *postControllerImp) Update(writer http.ResponseWriter, request 
 		Status: "Ok",
 		Data:   response,
 	}
+	//mencetak header dan melakukan proses encoding
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	err = encoder.Encode(webResponse)
+	helper.PanicIfError(err)
 
 }

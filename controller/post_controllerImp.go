@@ -6,6 +6,9 @@ import (
 	"medsos/model/web"
 	"medsos/service"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 type postControllerImp struct {
@@ -40,5 +43,10 @@ func (controller *postControllerImp) Save(writer http.ResponseWriter, request *h
 }
 
 func (controller *postControllerImp) Update(writer http.ResponseWriter, request *http.Request) {
+	//ambil dan convert id
+	vars := mux.Vars(request)
+	idString := vars["id"]
+	id, err := strconv.Atoi(idString)
+	helper.PanicIfError(err)
 
 }

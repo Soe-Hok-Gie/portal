@@ -59,6 +59,13 @@ func (controller *postControllerImp) Update(writer http.ResponseWriter, request 
 	post.Id = id
 
 	//panggil service
-	response = controller.postService.Update(request.Context(), post)
+	response := controller.postService.Update(request.Context(), post)
+
+	//membuat standar response
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "Ok",
+		Data:   response,
+	}
 
 }

@@ -87,4 +87,7 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 	id, err := strconv.Atoi(idString)
 	helper.PanicIfError(err)
 
+	//panggil service
+	response := controller.postService.FindById(request.Context(), id)
+
 }

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"medsos/helper"
 	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/repository"
@@ -61,4 +62,7 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 
 }
 
-func (service *postServiceImp) FindById(ctx context.Context, postId int) web.PostResponse
+func (service *postServiceImp) FindById(ctx context.Context, postId int) web.PostResponse {
+	post, err := service.PostRepository.FindById(ctx, postId)
+	helper.PanicIfError(err)
+}

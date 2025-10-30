@@ -73,4 +73,17 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post 
 	helper.PanicIfError(err)
 	defer rows.Close()
 
+	var posts domain.Post
+
+	//looping
+	for rows.Next() {
+		var post domain.Post
+		err := rows.Scan(
+			post.Id,
+			post.User_Id,
+			post.Title,
+			post.Content,
+		)
+	}
+
 }

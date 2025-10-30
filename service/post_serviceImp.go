@@ -63,6 +63,17 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 }
 
 func (service *postServiceImp) FindById(ctx context.Context, postId int) web.PostResponse {
+	//panggil service
 	post, err := service.PostRepository.FindById(ctx, postId)
 	helper.PanicIfError(err)
+
+	// tampung model web response dalam sebuah variabel
+	postResponse := web.PostResponse{
+		Id:      post.Id,
+		User_Id: post.User_Id,
+		Title:   post.Title,
+		Content: post.Content,
+	}
+	return postResponse
+
 }

@@ -89,5 +89,9 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 
 	//panggil service
 	response := controller.postService.FindById(request.Context(), id)
-
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "OK",
+		Data:   response,
+	}
 }

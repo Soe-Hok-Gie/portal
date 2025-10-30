@@ -62,3 +62,5 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 		return post, errors.New("node found")
 	}
 }
+
+func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post

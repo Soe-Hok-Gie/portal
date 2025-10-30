@@ -79,3 +79,5 @@ func (controller *postControllerImp) Update(writer http.ResponseWriter, request 
 	helper.PanicIfError(err)
 
 }
+
+func (controller *postControllerImp) FindById(writer http.ResponseWriter, request *http.Request)

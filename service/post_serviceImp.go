@@ -60,3 +60,5 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 	return postResponse
 
 }
+
+func (service *postServiceImp) FindById(ctx context.Context, postId int) web.PostResponse

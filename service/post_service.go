@@ -8,4 +8,5 @@ import (
 type PostService interface {
 	Create(ctx context.Context, request web.PostCreateRequest) web.PostResponse
 	Update(ctx context.Context, request web.PostUpdateRequest) web.PostResponse
+	FindById(ctx context.Context, postId int) web.PostResponse
 }

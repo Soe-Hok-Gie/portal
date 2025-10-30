@@ -83,8 +83,8 @@ func (controller *postControllerImp) Update(writer http.ResponseWriter, request 
 func (controller *postControllerImp) FindById(writer http.ResponseWriter, request *http.Request) {
 	//ambil dan convert id
 	vars := mux.Vars(request)
-	idString := vars["id"]
-	id, err := strconv.Atoi(idString)
+	postId := vars["id"]
+	id, err := strconv.Atoi(postId)
 	helper.PanicIfError(err)
 
 	//panggil service

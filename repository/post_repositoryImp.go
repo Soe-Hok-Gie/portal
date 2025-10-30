@@ -49,14 +49,14 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
-	script := "SELECT id, title FROM post WHERE id=?"
+	script := "SELECT id, title, content  FROM post WHERE id=?"
 	rows, err := tx.QueryContext(ctx, script, postId)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
 	post := domain.Post{}
 	if rows.Next() {
-		rows.Scan(&post.Id, &post.Title)
+		rows.Scan(&post.Id, &post.Title, &post.Content)
 		return post, nil
 	} else {
 		return post, errors.New("node found")

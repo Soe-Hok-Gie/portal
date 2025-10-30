@@ -44,8 +44,7 @@ func (repository *postRepositoryImp) Update(ctx context.Context, post domain.Pos
 	}
 	return post
 }
-func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) domain.Post {
-
+func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (domain.Post, error) {
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
@@ -62,5 +61,4 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) d
 	} else {
 		return post, errors.New("node found")
 	}
-
 }

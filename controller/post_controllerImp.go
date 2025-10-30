@@ -94,4 +94,8 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 		Status: "OK",
 		Data:   response,
 	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
+
 }

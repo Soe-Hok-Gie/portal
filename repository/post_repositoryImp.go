@@ -63,4 +63,9 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 	}
 }
 
-func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post
+func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
+
+}

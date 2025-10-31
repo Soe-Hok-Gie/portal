@@ -77,3 +77,5 @@ func (service *postServiceImp) FindById(ctx context.Context, postId int) web.Pos
 	return postResponse
 
 }
+
+func (service *postServiceImp) FindAll(ctx context.Context) web.PostResponse

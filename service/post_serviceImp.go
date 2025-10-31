@@ -81,10 +81,10 @@ func (service *postServiceImp) FindById(ctx context.Context, postId int) web.Pos
 func (service *postServiceImp) FindAll(ctx context.Context) web.PostResponse {
 	posts := service.PostRepository.FindAll(ctx)
 
-	var webResponse []web.PostResponse
-
+	var webResponses []web.PostResponse
 	for _, post := range posts {
+		webResponses = append(webResponses, web.PostResponse(post))
 
 	}
-
+	return webResponses
 }

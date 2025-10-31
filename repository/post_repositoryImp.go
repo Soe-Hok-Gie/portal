@@ -73,7 +73,7 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post 
 	helper.PanicIfError(err)
 	defer rows.Close()
 
-	var posts domain.Post
+	var posts []domain.Post
 
 	//looping
 	for rows.Next() {
@@ -84,6 +84,9 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post 
 			post.Title,
 			post.Content,
 		)
+		helper.PanicIfError(err)
+		posts = append(posts, post)
 	}
+	return posts
 
 }

@@ -107,4 +107,7 @@ func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request
 		Status: "Ok",
 		Data:   postRenponses,
 	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
 }

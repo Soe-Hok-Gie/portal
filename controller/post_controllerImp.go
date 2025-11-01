@@ -99,15 +99,17 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 	encoder.Encode(webResponse)
 
 }
+
 func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
-	postRenponses := controller.postService.FindAll(request.Context())
+	postResponses := controller.postService.FindAll(request.Context())
 
 	webResponse := web.Response{
 		Code:   http.StatusOK,
 		Status: "Ok",
-		Data:   postRenponses,
+		Data:   postResponses,
 	}
 	writer.Header().Add("Content-Type", "application/json")
 	encoder := json.NewEncoder(writer)
 	encoder.Encode(webResponse)
+
 }

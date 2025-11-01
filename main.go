@@ -53,6 +53,7 @@ func main() {
 	r.HandleFunc("/post", postController.Create).Methods("POST")
 	r.HandleFunc("/post/{id}", postController.Update).Methods("PUT")
 	r.HandleFunc("/post/{id}", postController.FindById).Methods("GET")
+	r.HandleFunc("/post", postController.FindAll).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 

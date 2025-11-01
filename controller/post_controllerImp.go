@@ -100,5 +100,6 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 
 }
 func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
+	postRenponses := controller.postService.FindAll(request.Context())
 
 }

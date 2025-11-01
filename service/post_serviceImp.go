@@ -83,6 +83,7 @@ func (service *postServiceImp) FindAll(ctx context.Context) []web.PostResponse {
 	posts := service.PostRepository.FindAll(ctx)
 
 	var postRenponses []web.PostResponse
+
 	for _, post := range posts {
 		postRenponses = append(postRenponses, helper.ToPostResponse(post))
 	}

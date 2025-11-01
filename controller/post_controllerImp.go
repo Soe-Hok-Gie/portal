@@ -99,3 +99,6 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 	encoder.Encode(webResponse)
 
 }
+func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
+
+}

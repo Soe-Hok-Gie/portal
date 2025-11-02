@@ -91,3 +91,7 @@ func (service *postServiceImp) FindAll(ctx context.Context) []web.PostResponse {
 	return postResponses
 
 }
+
+func (service *postServiceImp) Delete(ctx context.Context, postId int) {
+
+}

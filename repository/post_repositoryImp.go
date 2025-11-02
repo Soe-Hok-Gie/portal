@@ -95,5 +95,8 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post 
 }
 
 func (repository *postRepositoryImp) Delete(ctx context.Context, post domain.Post) {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
 
 }

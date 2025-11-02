@@ -93,3 +93,7 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post 
 	return posts
 
 }
+
+func (repository *postRepositoryImp) Delete(ctx context.Context, post domain.Post) {
+
+}

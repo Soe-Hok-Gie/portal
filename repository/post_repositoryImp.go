@@ -100,6 +100,8 @@ func (repository *postRepositoryImp) Delete(ctx context.Context, post domain.Pos
 	defer helper.CommitOrRollBack(tx)
 
 	script := "DELETE FROM user WHERE id=?"
-	tx.ExecContext(ctx, script, post.Id)
+	if _, err := tx.ExecContext(ctx, script, post.Id); err != nil {
+		panic(err)
+	}
 
 }

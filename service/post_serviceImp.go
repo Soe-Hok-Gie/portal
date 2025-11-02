@@ -96,4 +96,5 @@ func (service *postServiceImp) Delete(ctx context.Context, postId int) {
 	user, err := service.PostRepository.FindById(ctx, postId)
 	helper.PanicIfError(err)
 
+	service.PostRepository.Delete(ctx, user)
 }

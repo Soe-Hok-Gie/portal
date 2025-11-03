@@ -121,4 +121,9 @@ func (controller *postControllerImp) Delete(writer http.ResponseWriter, request 
 	helper.PanicIfError(err)
 
 	controller.postService.Delete(request.Context(), id)
+
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "OK",
+	}
 }

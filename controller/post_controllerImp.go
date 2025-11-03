@@ -119,4 +119,6 @@ func (controller *postControllerImp) Delete(writer http.ResponseWriter, request 
 	postId := vars["id"]
 	id, err := strconv.Atoi(postId)
 	helper.PanicIfError(err)
+
+	controller.postService.Delete(request.Context(), id)
 }

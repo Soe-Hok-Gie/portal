@@ -54,6 +54,7 @@ func main() {
 	r.HandleFunc("/post/{id}", postController.Update).Methods("PUT")
 	r.HandleFunc("/post/{id}", postController.FindById).Methods("GET")
 	r.HandleFunc("/post", postController.FindAll).Methods("GET")
+	r.HandleFunc("/post/{id}", postController.Delete).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 

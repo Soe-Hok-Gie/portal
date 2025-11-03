@@ -126,4 +126,8 @@ func (controller *postControllerImp) Delete(writer http.ResponseWriter, request 
 		Code:   http.StatusOK,
 		Status: "OK",
 	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
+
 }

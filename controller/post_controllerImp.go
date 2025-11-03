@@ -114,4 +114,9 @@ func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request
 
 }
 
-func (controller *postControllerImp) Delete(writer http.ResponseWriter, request *http.Request)
+func (controller *postControllerImp) Delete(writer http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	postId := vars["id"]
+	id, err := strconv.Atoi(postId)
+	helper.PanicIfError(err)
+}

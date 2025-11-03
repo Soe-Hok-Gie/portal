@@ -113,3 +113,5 @@ func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request
 	encoder.Encode(webResponse)
 
 }
+
+func (controller *postControllerImp) Delete(writer http.ResponseWriter, request *http.Request)

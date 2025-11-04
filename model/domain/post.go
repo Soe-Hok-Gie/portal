@@ -9,3 +9,12 @@ type Post struct {
 	Content  string
 	CreateAt time.Time
 }
+
+type UserPost struct {
+	Id       int
+	User_Id  int
+	Username string
+	Title    string
+	Content  string
+	CreateAt time.Time
+}

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
 	"medsos/model/web"
@@ -66,13 +67,15 @@ func (service *postServiceImp) FindById(ctx context.Context, postId int) web.Pos
 	//panggil service
 	post, err := service.PostRepository.FindById(ctx, postId)
 	helper.PanicIfError(err)
+	fmt.Println("post", post)
 
 	// tampung model web response dalam sebuah variabel
 	postResponse := web.PostResponse{
-		Id:      post.Id,
-		User_Id: post.User_Id,
-		Title:   post.Title,
-		Content: post.Content,
+		Id:       post.Id,
+		Username: post.Username,
+		User_Id:  post.User_Id,
+		Title:    post.Title,
+		Content:  post.Content,
 	}
 	return postResponse
 
@@ -93,8 +96,6 @@ func (service *postServiceImp) FindAll(ctx context.Context) []web.PostResponse {
 }
 
 func (service *postServiceImp) Delete(ctx context.Context, postId int) {
-	user, err := service.PostRepository.FindById(ctx, postId)
-	helper.PanicIfError(err)
 
-	service.PostRepository.Delete(ctx, user)
+	service.PostRepository.Delete(ctx, postId)
 }

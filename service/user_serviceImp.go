@@ -67,10 +67,8 @@ func (service *userServiceImp) FindById(ctx context.Context, userId int) web.Use
 }
 
 func (service *userServiceImp) Delete(ctx context.Context, userId int) {
-	user, err := service.UserRepository.FindById(ctx, userId)
-	helper.PanicIfError(err)
 
-	service.UserRepository.Delete(ctx, user)
+	service.UserRepository.Delete(ctx, userId)
 
 }
 

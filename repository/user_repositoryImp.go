@@ -69,7 +69,7 @@ func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (
 }
 
 // delete
-func (repository *userRepositoryImp) Delete(ctx context.Context, user domain.User) {
+func (repository *userRepositoryImp) Delete(ctx context.Context, id int) {
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)

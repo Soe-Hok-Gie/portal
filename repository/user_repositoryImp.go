@@ -74,7 +74,7 @@ func (repository *userRepositoryImp) Delete(ctx context.Context, id int) {
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 	script := "DELETE FROM user  WHERE id=?"
-	if _, err := tx.ExecContext(ctx, script, user.Id); err != nil {
+	if _, err := tx.ExecContext(ctx, script, id); err != nil {
 		panic(err)
 	}
 }

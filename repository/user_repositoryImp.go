@@ -105,3 +105,38 @@ func (repository *userRepositoryImp) FindAll(ctx context.Context) []domain.User 
 	}
 	return users
 }
+
+func (repository *userRepositoryImp) FindUserPost(ctx context.Context, userId int) domain.UserPosts {
+	tx, err := repository.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollBack(tx)
+
+	script := "SELECT u.id AS user_id, u.username, p.id AS post_id, p.title AS post_title, p.content AS post_content FROM user u LEFT JOIN post p ON u.id = p.user_id WHERE u.id = ?;"
+	rows, err := tx.QueryContext(ctx, script, userId)
+	helper.PanicIfError(err)
+	defer rows.Close()
+
+	var user domain.UserPosts
+	user.Posts = []domain.PostWithoutUserId{}
+
+	for rows.Next() {
+		var (
+			postId      sql.NullInt64
+			postTitle   sql.NullString
+			postContent sql.NullString
+		)
+
+		if err := rows.Scan(&user.Id, &user.Username, &postId, &postTitle, &postContent); err != nil {
+			panic(err)
+		}
+		if postId.Valid {
+			user.Posts = append(user.Posts, domain.PostWithoutUserId{
+				Id:      int(postId.Int64),
+				Title:   postTitle.String,
+				Content: postContent.String,
+			})
+		}
+	}
+
+	return user
+}

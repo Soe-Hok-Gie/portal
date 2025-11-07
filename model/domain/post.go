@@ -10,6 +10,13 @@ type Post struct {
 	CreateAt time.Time
 }
 
+type PostWithoutUserId struct {
+	Id       int
+	Title    string
+	Content  string
+	CreateAt time.Time
+}
+
 type UserPost struct {
 	Id       int
 	User_Id  int

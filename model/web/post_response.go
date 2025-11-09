@@ -9,8 +9,8 @@ type PostResponse struct {
 	// User    domain.User `json:"user"` //belongs to user
 }
 
-// type PostResponseTanpaUserId struct {
-// 	Id      int    `json:"id"`
-// 	Title   string `json:"title"`
-// 	Content string `json:"content"`
-// }
+type PostWithoutUserResponse struct {
+	Id      int    `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}

@@ -83,3 +83,22 @@ func (service *userServiceImp) FindAll(ctx context.Context) []web.UserResponse {
 	}
 	return userResponses
 }
+
+func (service *userServiceImp) FindUserPost(ctx context.Context, userId int) web.UserWithPostsResponse {
+	user := service.UserRepository.FindUserPost(ctx, userId)
+
+	var response web.UserWithPostsResponse
+	response.Id = user.Id
+	response.Username = user.Username
+
+	for _, post := range user.Posts {
+		response.Posts = append(response.Posts, web.PostWithoutUserResponse{
+			Id:      post.Id,
+			Title:   post.Title,
+			Content: post.Content,
+		})
+
+	}
+
+	return response
+}

@@ -138,3 +138,22 @@ func (controller *userControllerImp) FindAll(writer http.ResponseWriter, request
 	encoder.Encode(webResponse)
 
 }
+
+// FindUserPost
+func (controller *userControllerImp) FindUserPost(writer http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	userId := vars["id"]
+	id, err := strconv.Atoi(userId)
+	helper.PanicIfError(err)
+
+	response := controller.userService.FindUserPost(request.Context(), id)
+
+	webResponse := web.Response{
+		Code:   http.StatusOK,
+		Status: "OK",
+		Data:   response,
+	}
+	writer.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(writer)
+	encoder.Encode(webResponse)
+}

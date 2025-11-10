@@ -48,7 +48,7 @@ func main() {
 	r.HandleFunc("/user/{id}", userController.FindById).Methods("GET")
 	r.HandleFunc("/user/{id}", userController.Delete).Methods("DELETE")
 	r.HandleFunc("/user", userController.FindAll).Methods("GET")
-	// r.HandleFunc("/post/user/{id}", postController.FindUserPost).Methods("GET")
+	r.HandleFunc("/post/user/{id}", userController.FindUserPost).Methods("GET")
 
 	//router post
 	r.HandleFunc("/post", postController.Create).Methods("POST")

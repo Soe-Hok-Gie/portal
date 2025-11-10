@@ -9,4 +9,5 @@ type UserController interface {
 	FindById(writer http.ResponseWriter, request *http.Request)
 	Delete(writer http.ResponseWriter, request *http.Request)
 	FindAll(writer http.ResponseWriter, request *http.Request)
+	FindUserPost(writer http.ResponseWriter, request *http.Request)
 }

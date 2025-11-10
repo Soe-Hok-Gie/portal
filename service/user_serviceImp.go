@@ -88,6 +88,9 @@ func (service *userServiceImp) FindUserPost(ctx context.Context, userId int) web
 	user := service.UserRepository.FindUserPost(ctx, userId)
 
 	var response web.UserWithPostsResponse
+	//buat var responese utk menampung nilai dari web.UserWithPostsResponse
+	//kemudian responese berdasarkan field dgn sebuah var user domain.UserPosts
+	//cara seperti menghilangkan perulangan for seperti cara sebelumnya
 	response.Id = user.Id
 	response.Username = user.Username
 	response.Posts = user.Posts

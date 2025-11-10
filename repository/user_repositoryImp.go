@@ -116,7 +116,9 @@ func (repository *userRepositoryImp) FindUserPost(ctx context.Context, userId in
 	helper.PanicIfError(err)
 	defer rows.Close()
 
+	//buat sebuah var user untuk menampung data dari domain.UserPosts
 	var user domain.UserPosts
+	//lalu panggil user.Posts untuk menampung slice PostWithoutUserId
 	user.Posts = []domain.PostWithoutUserId{}
 
 	for rows.Next() {

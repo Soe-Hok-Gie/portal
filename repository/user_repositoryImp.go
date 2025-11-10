@@ -121,17 +121,20 @@ func (repository *userRepositoryImp) FindUserPost(ctx context.Context, userId in
 	//lalu panggil user.Posts untuk menampung slice PostWithoutUserId
 	user.Posts = []domain.PostWithoutUserId{}
 
+	//Metode rows.Next() memajukan kursor sql.Rows ke baris berikutnya yang tersedia dalam kumpulan hasil.
 	for rows.Next() {
 		var (
 			postId      sql.NullInt64
-			postTitle   sql.NullString
+			postTitle   sql.NullString //sql.NullString adalah membedakan antara string kosong ("") dan nilai yang benar-benar tidak ada (NULL) dari database
 			postContent sql.NullString
 		)
 
+		//Metode rows.Scan() membaca nilai kolom baris saat ini (yang ditunjuk oleh kursor) dan menetapkannya ke variabel tujuan yang disediakan.
 		if err := rows.Scan(&user.Id, &user.Username, &postId, &postTitle, &postContent); err != nil {
 			panic(err)
 		}
 		if postId.Valid {
+			//append() digunakan untuk menambahkan elemen ke akhir sebuah slice dan mengembalikan slice baru yang berisi elemen2 tambahan tsb..
 			user.Posts = append(user.Posts, domain.PostWithoutUserId{
 				Id:      int(postId.Int64),
 				Title:   postTitle.String,

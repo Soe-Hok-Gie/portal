@@ -12,5 +12,5 @@ type UserService interface {
 	FindById(ctx context.Context, userId int) web.UserResponse
 	Delete(ctx context.Context, userId int)
 	FindAll(ctx context.Context) []web.UserResponse
-	FindUserPost(ctx context.Context, userId int) []web.UserWithPostsResponse
+	FindUserPost(ctx context.Context, userId int) web.UserWithPostsResponse
 }

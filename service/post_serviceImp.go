@@ -81,9 +81,12 @@ func (service *postServiceImp) FindById(ctx context.Context, postId int) web.Pos
 
 }
 
-func (service *postServiceImp) FindAll(ctx context.Context) []web.PostResponse {
-
-	posts := service.PostRepository.FindAll(ctx)
+func (service *postServiceImp) FindAll(ctx context.Context, filter domain.PostFilter) []web.PostResponse {
+	// validasi sort params
+	if filter.Sort != "asc" && filter.Sort != "desc" {
+		filter.Sort = "desc"//default
+	
+	posts := service.PostRepository.FindAll(ctx, filter)
 
 	var postResponses []web.PostResponse
 

@@ -70,12 +70,20 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 	}
 }
 
-func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post {
+func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.PostFilter) []domain.Post {
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
-	script := "SELECT id, user_id, title, content FROM post"
+	filter.Sort = "asc" //filter yang sudah ditambahkan post struct
+
+	script := "SELECT id, user_id, title, content, create_at FROM post ORDER BY created_at ASC"
+	//logic
+	if filter.Sort == "asc" {
+		script += "ASC"
+	} else {
+		script += "DESC"
+	}
 	rows, err := tx.QueryContext(ctx, script)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -92,6 +100,7 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context) []domain.Post 
 			&post.User_Id,
 			&post.Title,
 			&post.Content,
+			&post.CreateAt,
 		)
 		helper.PanicIfError(err)
 		posts = append(posts, post)

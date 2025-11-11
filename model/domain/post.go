@@ -25,3 +25,7 @@ type UserPost struct {
 	Content  string
 	CreateAt time.Time
 }
+
+type PostFilter struct {
+	Sort string
+}

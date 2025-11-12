@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"medsos/helper"
+	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/service"
 	"net/http"
@@ -101,13 +102,23 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 }
 
 func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
-	postResponses := controller.postService.FindAll(request.Context())
+	//ambil query params
+	sort := request.URL.Query().Get("sort")
+
+	//buat struct domain sesuai service
+	filter := domain.PostFilter{
+		Sort: sort,
+	}
+
+	//tambahkan flter pada parameter kedua
+	postResponses := controller.postService.FindAll(request.Context(), filter)
 
 	webResponse := web.Response{
 		Code:   http.StatusOK,
 		Status: "Ok",
 		Data:   postResponses,
 	}
+
 	writer.Header().Add("Content-Type", "application/json")
 	encoder := json.NewEncoder(writer)
 	encoder.Encode(webResponse)

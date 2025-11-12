@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
+	"strings"
 )
 
 type postRepositoryImp struct {
@@ -75,17 +76,15 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 
-	filter.Sort = "asc" //filter yang sudah ditambahkan post struct
-
-	script := "SELECT id, user_id, title, content, create_at FROM post ORDER BY created_at ASC"
-	//logic
-	if filter.Sort == "asc" {
-		script += "ASC"
-	} else {
-		script += "DESC"
+	order := "DESC"
+	if strings.ToLower(filter.Sort) == "asc" {
+		order = "ASC"
 	}
+	script := fmt.Sprintf("SELECT id, user_id, title, content, created_at FROM post ORDER BY post.created_at ASC %s", order)
+	fmt.Printf("Query: %v", script)
+
 	rows, err := tx.QueryContext(ctx, script)
-	helper.PanicIfError(err)
+	fmt.Println("Query error:", err)
 	defer rows.Close()
 
 	fmt.Printf("\nrows : %v", rows)
@@ -100,11 +99,14 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.
 			&post.User_Id,
 			&post.Title,
 			&post.Content,
-			&post.CreateAt,
+			&post.Created_At,
 		)
+		fmt.Printf("\nrows : %v", rows)
+
 		helper.PanicIfError(err)
 		posts = append(posts, post)
 	}
+
 	return posts
 
 }

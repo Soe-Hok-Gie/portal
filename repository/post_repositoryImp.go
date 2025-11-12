@@ -80,14 +80,12 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.
 	if strings.ToLower(filter.Sort) == "asc" {
 		order = "ASC"
 	}
-	script := fmt.Sprintf("SELECT id, user_id, title, content, created_at FROM post ORDER BY post.created_at ASC %s", order)
-	fmt.Printf("Query: %v", script)
+	script := fmt.Sprintf("SELECT id, user_id, title, content, created_at FROM post ORDER BY post.created_at %s", order)
+	fmt.Printf("Query: %q\n", script)
 
 	rows, err := tx.QueryContext(ctx, script)
 	fmt.Println("Query error:", err)
 	defer rows.Close()
-
-	fmt.Printf("\nrows : %v", rows)
 
 	var posts []domain.Post
 
@@ -105,6 +103,8 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.
 
 		helper.PanicIfError(err)
 		posts = append(posts, post)
+		fmt.Printf("Total data dari DB: %d\n", len(posts))
+
 	}
 
 	return posts

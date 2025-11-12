@@ -20,10 +20,10 @@ func NewPostService(postRepository repository.PostRepository) PostService {
 func (service *postServiceImp) Create(ctx context.Context, request web.PostCreateRequest) web.PostResponse {
 	// tampung model domain dalam sebuah variabel
 	post := domain.Post{
-		User_Id:  request.User_Id,
-		Title:    request.Title,
-		Content:  request.Content,
-		CreateAt: request.CreateAt,
+		User_Id:    request.User_Id,
+		Title:      request.Title,
+		Content:    request.Content,
+		Created_At: request.CreateAt,
 	}
 
 	//panggil service
@@ -84,18 +84,14 @@ func (service *postServiceImp) FindById(ctx context.Context, postId int) web.Pos
 func (service *postServiceImp) FindAll(ctx context.Context, filter domain.PostFilter) []web.PostResponse {
 	// validasi sort params
 	if filter.Sort != "asc" && filter.Sort != "desc" {
-		filter.Sort = "desc"//default
-	
+		filter.Sort = "desc" //default
+	}
 	posts := service.PostRepository.FindAll(ctx, filter)
-
 	var postResponses []web.PostResponse
-
 	for _, post := range posts {
 		postResponses = append(postResponses, helper.ToPostResponse(post))
 	}
-
 	return postResponses
-
 }
 
 func (service *postServiceImp) Delete(ctx context.Context, postId int) {

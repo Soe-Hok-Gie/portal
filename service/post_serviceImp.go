@@ -7,6 +7,7 @@ import (
 	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/repository"
+	"strings"
 )
 
 type postServiceImp struct {
@@ -83,9 +84,11 @@ func (service *postServiceImp) FindById(ctx context.Context, postId int) web.Pos
 
 func (service *postServiceImp) FindAll(ctx context.Context, filter domain.PostFilter) []web.PostResponse {
 	// validasi sort params
+	filter.Sort = strings.ToLower(filter.Sort)
 	if filter.Sort != "asc" && filter.Sort != "desc" {
 		filter.Sort = "desc" //default
 	}
+
 	posts := service.PostRepository.FindAll(ctx, filter)
 	var postResponses []web.PostResponse
 	for _, post := range posts {

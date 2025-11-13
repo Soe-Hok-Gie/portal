@@ -57,7 +57,7 @@ func main() {
 	r.HandleFunc("/post", postController.FindAll).Methods("GET")
 	r.HandleFunc("/post/{id}", postController.Delete).Methods("DELETE")
 	//endpoint query params, sort berdasarkan ascending
-	r.HandleFunc("/post?sort=asc", postController.FindAll).Methods("GET")
+	// r.HandleFunc("/post?sort=asc", postController.FindAll).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 

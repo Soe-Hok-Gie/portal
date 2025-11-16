@@ -8,6 +8,7 @@ import (
 	"medsos/service"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -102,14 +103,14 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 }
 
 func (controller *postControllerImp) FindAll(writer http.ResponseWriter, request *http.Request) {
+	//panggil struct filter
+	filter := domain.PostFilter{}
 	//ambil query params
-	sort := request.URL.Query().Get("sort")
-
-	//buat struct domain sesuai service
-	filter := domain.PostFilter{
-		Sort: sort,
+	filter.Sort = strings.ToUpper(request.URL.Query().Get("sort"))
+	//looping
+	if filter.Sort == "" {
+		filter.Sort = "DESC"
 	}
-
 	//tambahkan flter pada parameter kedua
 	postResponses := controller.postService.FindAll(request.Context(), filter)
 

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
-	"strings"
 )
 
 type postRepositoryImp struct {
@@ -75,12 +74,8 @@ func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
-
-	order := "DESC"
-	if strings.ToLower(filter.Sort) == "asc" {
-		order = "ASC"
-	}
-	script := fmt.Sprintf("SELECT id, user_id, title, content, created_at FROM post ORDER BY post.created_at %s", order)
+	//langsung panggil filter sort
+	script := fmt.Sprintf("SELECT id, user_id, title, content, created_at FROM post ORDER BY post.created_at %s", filter.Sort)
 	fmt.Printf("Query: %q\n", script)
 
 	rows, err := tx.QueryContext(ctx, script)

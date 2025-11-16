@@ -3,8 +3,8 @@ package domain
 import "time"
 
 type Post struct {
-	Id int
-	// Username string
+	Id         int
+	Username   string
 	User_Id    int
 	Title      string
 	Content    string

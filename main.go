@@ -5,6 +5,7 @@ import (
 	"log"
 	"medsos/app"
 	"medsos/controller"
+	"medsos/middleware"
 	"medsos/repository"
 	"medsos/service"
 	"net/http"
@@ -58,6 +59,11 @@ func main() {
 	r.HandleFunc("/post/{id}", postController.Delete).Methods("DELETE")
 	//endpoint query params, sort berdasarkan ascending
 	// r.HandleFunc("/post?sort=asc", postController.FindAll).Methods("GET")
+
+	// r.PanicHandler = exception.ErrorHandler //cara httprouter (Panic Handler Bawaan)
+
+	//pasang panic handler yg sudah dibuat manual, menggunakan method use dari router mux
+	r.Use(middleware.Recovery)
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 

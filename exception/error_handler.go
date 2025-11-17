@@ -8,5 +8,7 @@ func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interfa
 }
 
 func InternalServerError(writer http.ResponseWriter, request *http.Request, err interface{}) {
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusInternalServerError)
 
 }

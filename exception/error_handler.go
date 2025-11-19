@@ -7,6 +7,9 @@ import (
 )
 
 func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interface{}) {
+	if NotFoundError(writer, request, err) {
+		return
+	}
 
 	InternalServerError(writer, request, err)
 }

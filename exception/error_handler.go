@@ -7,17 +7,33 @@ import (
 )
 
 func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interface{}) {
-	if NotFoundError(writer, request, err) {
+	if notFoundError(writer, request, err) {
 		return
 	}
 
-	InternalServerError(writer, request, err)
+	internalServerError(writer, request, err)
 }
-func NotFoundError(writer http.ResponseWriter, request http.Request, err interface{}) bool {
+func notFoundError(writer http.ResponseWriter, request *http.Request, err interface{}) bool {
+	exception, ok := err.(NotFoundError)
+	if ok {
+		writer.Header().Set("Content-Type", "application/json")
+		writer.WriteHeader(http.StatusNotFound)
+		webResponse := web.Response{
+			Code:   http.StatusNotFound,
+			Status: "Not Found",
+			Data:   exception.Error,
+		}
+		writer.Header().Add("Content-Type", "application/json")
+		encoder := json.NewEncoder(writer)
+		encoder.Encode(webResponse)
+		return true
+	} else {
+		return false
+	}
 
 }
 
-func InternalServerError(writer http.ResponseWriter, request *http.Request, err interface{}) {
+func internalServerError(writer http.ResponseWriter, request *http.Request, err interface{}) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusInternalServerError)
 

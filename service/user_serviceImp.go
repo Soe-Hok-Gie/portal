@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"medsos/helper"
+	"medsos/exception"
 	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/repository"
@@ -57,8 +57,9 @@ func (service *userServiceImp) Update(ctx context.Context, request web.UserUpdat
 
 func (service *userServiceImp) FindById(ctx context.Context, userId int) web.UserResponse {
 	user, err := service.UserRepository.FindById(ctx, userId)
-	helper.PanicIfError(err)
-
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	userResponse := web.UserResponse{
 		Id:       user.Id,
 		Username: user.Username,

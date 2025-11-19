@@ -13,6 +13,9 @@ func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interfa
 
 	InternalServerError(writer, request, err)
 }
+func NotFoundError(writer http.ResponseWriter, request http.Request, err interface{}) bool {
+
+}
 
 func InternalServerError(writer http.ResponseWriter, request *http.Request, err interface{}) {
 	writer.Header().Set("Content-Type", "application/json")

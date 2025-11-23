@@ -87,10 +87,24 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 	vars := mux.Vars(request)
 	postId := vars["id"]
 	id, err := strconv.Atoi(postId)
-	helper.PanicIfError(err)
+	if err != nil {
+		writer.Header().Add("Content-Type", "application/json")
+		writer.WriteHeader(http.StatusInternalServerError)
+		encoder := json.NewEncoder(writer)
+		encoder.Encode("internal servel error")
+		return
+	}
 
 	//panggil service
-	response := controller.postService.FindById(request.Context(), id)
+	response, err := controller.postService.FindById(request.Context(), id)
+	if err != nil {
+		writer.Header().Add("Content-Type", "application/json")
+		writer.WriteHeader(http.StatusInternalServerError)
+		encoder := json.NewEncoder(writer)
+		encoder.Encode(err.Error())
+
+		return
+	}
 	webResponse := web.Response{
 		Code:   http.StatusOK,
 		Status: "OK",

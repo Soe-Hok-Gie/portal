@@ -71,7 +71,7 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 		rows.Scan(&post.Id, &post.User_Id, &post.Title, &post.Content, &post.Username)
 		return post, nil
 	} else {
-		return post, errors.New("node found")
+		return post, errors.New("not found")
 	}
 }
 

@@ -48,16 +48,21 @@ func (repository *userRepositoryImp) Update(ctx context.Context, user domain.Use
 
 // find by id
 func (repository *userRepositoryImp) FindById(ctx context.Context, userId int) (domain.User, error) {
+	var user domain.User
 	tx, err := repository.DB.Begin()
-	helper.PanicIfError(err)
+	if err != nil {
+		return user, err
+	}
 	defer helper.CommitOrRollBack(tx)
 
 	script := "SELECT id, username FROM user WHERE id=?"
 	rows, err := tx.QueryContext(ctx, script, userId)
-	helper.PanicIfError(err)
+	if err != nil {
+		return user, err
+	}
 	defer rows.Close()
 
-	user := domain.User{}
+	// user := domain.User{}
 	if rows.Next() {
 		//ada datanya
 		rows.Scan(&user.Id, &user.Username)

@@ -46,8 +46,11 @@ func (repository *postRepositoryImp) Update(ctx context.Context, post domain.Pos
 	return post
 }
 func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (domain.UserPost, error) {
+	var post domain.UserPost
 	tx, err := repository.DB.Begin()
-	helper.PanicIfError(err)
+	if err != nil {
+		return post, err
+	}
 	defer helper.CommitOrRollBack(tx)
 
 	//P alias post,U alias User,
@@ -58,10 +61,12 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 
 	script := "SELECT p.id, p.user_id, p.title, p.content, u.username FROM post AS p INNER JOIN `user` AS u ON p.user_id = u.id WHERE p.id =? LIMIT 1;"
 	rows, err := tx.QueryContext(ctx, script, postId)
-	helper.PanicIfError(err)
+	if err != nil {
+		return post, err
+	}
 	defer rows.Close()
 
-	post := domain.UserPost{}
+	// post := domain.UserPost{}
 	if rows.Next() {
 		rows.Scan(&post.Id, &post.User_Id, &post.Title, &post.Content, &post.Username)
 		return post, nil

@@ -2,8 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
-	"medsos/exception"
 	"medsos/helper"
 	"medsos/model/domain"
 	"medsos/model/web"
@@ -64,23 +62,25 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 
 }
 
-func (service *postServiceImp) FindById(ctx context.Context, postId int) web.PostResponse {
+func (service *postServiceImp) FindById(ctx context.Context, postId int) (web.PostResponse, error) {
+	//deklarasi
+	var postResponse web.PostResponse
 	//panggil service
 	post, err := service.PostRepository.FindById(ctx, postId)
+
 	if err != nil {
-		panic(exception.NewNotFoundError(err.Error()))
+		return postResponse, err
 	}
-	fmt.Println("post", post)
 
 	// tampung model web response dalam sebuah variabel
-	postResponse := web.PostResponse{
+	postResponse = web.PostResponse{
 		Id:       post.Id,
 		Username: post.Username,
 		User_Id:  post.User_Id,
 		Title:    post.Title,
 		Content:  post.Content,
 	}
-	return postResponse
+	return postResponse, nil
 
 }
 

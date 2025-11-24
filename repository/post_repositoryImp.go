@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
@@ -60,19 +59,29 @@ func (repository *postRepositoryImp) FindById(ctx context.Context, postId int) (
 	//LIMIT 1: membatasi jumlah baris hasil yang dikembalikan menjadi maksimal 1 baris.
 
 	script := "SELECT p.id, p.user_id, p.title, p.content, u.username FROM post AS p INNER JOIN `user` AS u ON p.user_id = u.id WHERE p.id =? LIMIT 1;"
-	rows, err := tx.QueryContext(ctx, script, postId)
-	if err != nil {
-		return post, err
-	}
-	defer rows.Close()
+	err = tx.QueryRowContext(ctx, script, postId).Scan(&post.Id, &post.User_Id, &post.Title, &post.Content, &post.Username)
+	return post, err
+	// rows, err := tx.QueryContext(ctx, script, postId)
+	// if err != nil {
+	// 	return post, err
+	// }
+	// defer rows.Close()
 
-	// post := domain.UserPost{}
-	if rows.Next() {
-		rows.Scan(&post.Id, &post.User_Id, &post.Title, &post.Content, &post.Username)
-		return post, nil
-	} else {
-		return post, errors.New("not found")
-	}
+	// // post := domain.UserPost{}
+	// if rows.Next() {
+	// 	rows.Scan(&post.Id, &post.User_Id, &post.Title, &post.Content, &post.Username)
+	// 	return post, nil
+	// } else {
+	// 	return post, errors.New("not found")
+	// }
+}
+
+const findByID = "SELECT p.id, p.user_id, p.title, p.content, u.username FROM post AS p INNER JOIN `user` AS u ON p.user_id = u.id WHERE p.id =? LIMIT 1;"
+
+func (repository *postRepositoryImp) FindById2(ctx context.Context, postId int) (domain.UserPost, error) {
+	var post domain.UserPost
+	err := repository.DB.QueryRow(findByID, postId).Scan(&post.Id, &post.User_Id, &post.Title, &post.Content, &post.Username)
+	return post, err
 }
 
 func (repository *postRepositoryImp) FindAll(ctx context.Context, filter domain.PostFilter) []domain.Post {

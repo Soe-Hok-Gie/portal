@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"medsos/helper"
@@ -97,7 +98,31 @@ func (controller *userControllerImp) FindById(writer http.ResponseWriter, reques
 		encoder.Encode("internal server error")
 		return
 	}
-	response := controller.userService.FindById(request.Context(), id)
+	response, err := controller.userService.FindById(request.Context(), id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			writer.Header().Add("Content-Type", "application/json")
+			writer.WriteHeader(http.StatusNotFound)
+			encoder := json.NewEncoder(writer)
+			webResponse := web.Response{
+				Code:   http.StatusNotFound,
+				Status: "Not Found",
+				Data:   nil,
+			}
+			encoder.Encode(webResponse)
+		} else {
+			writer.Header().Add("Content-Type", "application/json")
+			writer.WriteHeader(http.StatusInternalServerError)
+			encoder := json.NewEncoder(writer)
+			webResponse := web.Response{
+				Code:   http.StatusInternalServerError,
+				Status: "Internal Server Error",
+				Data:   nil,
+			}
+			encoder.Encode(webResponse)
+		}
+		return
+	}
 	webResponse := web.Response{
 		Code:   http.StatusOK,
 		Status: "Ok",

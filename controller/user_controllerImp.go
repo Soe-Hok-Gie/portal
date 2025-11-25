@@ -90,8 +90,13 @@ func (controller *userControllerImp) FindById(writer http.ResponseWriter, reques
 	vars := mux.Vars(request)
 	userId := vars["id"]
 	id, err := strconv.Atoi(userId)
-	helper.PanicIfError(err)
-
+	if err != nil {
+		writer.Header().Add("Content-Type", "application/json")
+		writer.WriteHeader(http.StatusInternalServerError)
+		encoder := json.NewEncoder(writer)
+		encoder.Encode("internal server error")
+		return
+	}
 	response := controller.userService.FindById(request.Context(), id)
 	webResponse := web.Response{
 		Code:   http.StatusOK,

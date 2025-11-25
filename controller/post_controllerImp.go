@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"database/sql"
 	"encoding/json"
 	"medsos/helper"
 	"medsos/model/domain"
@@ -98,10 +99,30 @@ func (controller *postControllerImp) FindById(writer http.ResponseWriter, reques
 	//panggil service
 	response, err := controller.postService.FindById(request.Context(), id)
 	if err != nil {
-		writer.Header().Add("Content-Type", "application/json")
-		writer.WriteHeader(http.StatusInternalServerError)
-		encoder := json.NewEncoder(writer)
-		encoder.Encode(err.Error())
+		if err == sql.ErrNoRows {
+			//sql.ErrNoRows adalah error khusus dalam paket database/sql pada Go
+			// yang muncul ketika query tidak mengembalikan baris sama sekali.
+			// Error ini bukan berarti query gagal, tapi hanya menandakan bahwa hasilnya kosong.
+			writer.Header().Set("Content-Type", "application/json")
+			writer.WriteHeader(http.StatusNotFound)
+			encoder := json.NewEncoder(writer)
+			webResponse := web.Response{
+				Code:   http.StatusNotFound,
+				Status: "Not Ok",
+				Data:   nil,
+			}
+			encoder.Encode(webResponse)
+		} else {
+			writer.Header().Add("Content-Type", "application/json")
+			writer.WriteHeader(http.StatusInternalServerError)
+			encoder := json.NewEncoder(writer)
+			webResponse := web.Response{
+				Code:   http.StatusInternalServerError,
+				Status: "Not Ok",
+				Data:   nil,
+			}
+			encoder.Encode(webResponse)
+		}
 
 		return
 	}

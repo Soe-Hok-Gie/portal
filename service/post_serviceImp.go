@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
 	"medsos/model/web"
@@ -16,7 +17,12 @@ type postServiceImp struct {
 func NewPostService(postRepository repository.PostRepository) PostService {
 	return &postServiceImp{PostRepository: postRepository}
 }
-func (service *postServiceImp) Create(ctx context.Context, request web.PostCreateRequest) web.PostResponse {
+func (service *postServiceImp) Create(ctx context.Context, request web.PostCreateRequest) (web.PostResponse, error) {
+	//validasi title
+	if request.Title == "" {
+		return web.PostResponse{}, fmt.Errorf("title title tidak boleh kosong")
+	}
+
 	// tampung model domain dalam sebuah variabel
 	post := domain.Post{
 		User_Id:    request.User_Id,
@@ -25,8 +31,11 @@ func (service *postServiceImp) Create(ctx context.Context, request web.PostCreat
 		Created_At: request.CreateAt,
 	}
 
-	//panggil service
-	post = service.PostRepository.Save(ctx, post)
+	//panggil repository untuk mapping ke DB.
+	post, err := service.PostRepository.Save(ctx, post)
+	if err != nil {
+		return web.PostResponse{}, fmt.Errorf("service create error :%w", err)
+	}
 
 	// tampung model web response dalam sebuah variabel
 	postResponse := web.PostResponse{
@@ -35,7 +44,7 @@ func (service *postServiceImp) Create(ctx context.Context, request web.PostCreat
 		Title:   post.Title,
 		Content: post.Content,
 	}
-	return postResponse
+	return postResponse, nil
 
 }
 

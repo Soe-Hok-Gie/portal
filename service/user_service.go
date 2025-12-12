@@ -7,7 +7,7 @@ import (
 
 type UserService interface {
 	//parameter keduanya representasi dari request dan response
-	Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse
+	Create(ctx context.Context, request web.UserCreateRequest) (web.UserResponse, error)
 	Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse
 	FindById(ctx context.Context, userId int) (web.UserResponse, error)
 	Delete(ctx context.Context, userId int)

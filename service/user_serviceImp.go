@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"medsos/model/domain"
 	"medsos/model/web"
 	"medsos/repository"
@@ -18,21 +19,28 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 }
 
 // implementasi bisnis logic
-func (service *userServiceImp) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
+func (service *userServiceImp) Create(ctx context.Context, request web.UserCreateRequest) (web.UserResponse, error) {
+	if request.Username == "" {
+		return web.UserResponse{}, fmt.Errorf("username tidak boleh kosong")
+	}
+
 	// tampung model domain dalam sebuah variabel
 	user := domain.User{
 		Username: request.Username,
 	}
 
 	//panggil service
-	user = service.UserRepository.Save(ctx, user)
+	user, err := service.UserRepository.Save(ctx, user)
+	if err != nil {
+		return web.UserResponse{}, fmt.Errorf("service create error : %w", err)
+	}
 
 	// tampung model web response dalam sebuah variabel
 	userResponse := web.UserResponse{
 		Id:       user.Id,
 		Username: user.Username,
 	}
-	return userResponse
+	return userResponse, nil
 }
 
 func (service *userServiceImp) Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse {

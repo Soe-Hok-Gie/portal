@@ -6,7 +6,7 @@ import (
 )
 
 type UserRepository interface {
-	Save(ctx context.Context, user domain.User) domain.User
+	Save(ctx context.Context, user domain.User) (domain.User, error)
 	Update(ctx context.Context, user domain.User) domain.User
 	FindById(ctx context.Context, userId int) (domain.User, error)
 	Delete(ctx context.Context, id int)

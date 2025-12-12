@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
 )
@@ -18,18 +19,22 @@ func NewUserRepository(DB *sql.DB) UserRepository {
 }
 
 // create user
-func (repository *userRepositoryImp) Save(ctx context.Context, user domain.User) domain.User {
+func (repository *userRepositoryImp) Save(ctx context.Context, user domain.User) (domain.User, error) {
 	tx, err := repository.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollBack(tx)
 	script := "INSERT INTO user (id,username) VALUES(?,?)"
 	result, err := tx.ExecContext(ctx, script, user.Id, user.Username)
-	helper.PanicIfError(err)
+	if err != nil {
+		return user, fmt.Errorf("repo :%w", err)
+	}
 	id, err := result.LastInsertId()
+	if err != nil {
+		return user, fmt.Errorf("get id: %w", err)
+	}
 
-	helper.PanicIfError(err)
 	user.Id = int(id)
-	return user
+	return user, nil
 }
 
 // update user

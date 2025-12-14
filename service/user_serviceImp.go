@@ -20,10 +20,6 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 
 // implementasi bisnis logic
 func (service *userServiceImp) Create(ctx context.Context, request web.UserCreateRequest) (web.UserResponse, error) {
-	if request.Username == "" {
-		return web.UserResponse{}, fmt.Errorf("username tidak boleh kosong")
-	}
-
 	// tampung model domain dalam sebuah variabel
 	user := domain.User{
 		Username: request.Username,

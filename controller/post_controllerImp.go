@@ -3,6 +3,7 @@ package controller
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"medsos/helper"
 	"medsos/model/domain"
 	"medsos/model/web"
@@ -24,69 +25,41 @@ func NewPostController(postService service.PostService) PostController {
 }
 
 func (controller *postControllerImp) Create(writer http.ResponseWriter, request *http.Request) {
-	// //membaca request body
-	// decoder := json.NewDecoder(request.Body)
-	// //mengembalikan result, result diambil dari model web
-	// result := web.PostCreateRequest{}
-	// err := decoder.Decode(&result)
-	// helper.PanicIfError(err)
-
-	// //memanggil service dan mengembalikan response
-	// response := controller.postService.Create(request.Context(), result)
-
-	// //membuat standart response
-	// webResponse := web.Response{
-	// 	Code:   http.StatusCreated,
-	// 	Status: http.StatusText(http.StatusCreated),
-	// 	Data:   response,
-	// }
-
-	// //mencetak header json dan melakukan proses encoding
-	// writer.Header().Add("Content-Type", "application/json")
-	// writer.WriteHeader(http.StatusCreated)
-	// encoder := json.NewEncoder(writer)
-	// err = encoder.Encode(webResponse)
-	// helper.PanicIfError(err)
+	//membaca request body
 	decoder := json.NewDecoder(request.Body)
-	postReq := web.PostCreateRequest{}
+	//  membuat sebuah var , diambil dari model web
+	var postReq web.PostCreateRequest
 	err := decoder.Decode(&postReq)
 	if err != nil {
 		writer.Header().Set("Content-Type", "application/json")
 		writer.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(writer).Encode(web.Response{
+			//membuat standart response
 			Code:   http.StatusBadRequest,
 			Status: "Bad Request",
 			Data:   "invalid Request",
 		})
 		return
 	}
-
+	// //memanggil service dan mengembalikan response
 	response, err := controller.postService.Create(request.Context(), postReq)
 	if err != nil {
-		//HasPrefix => Mengecek apakah string diawali substring tertentu
-		if strings.HasPrefix(err.Error(), "validasi") {
-			writer.Header().Set("Content-Type", "application/json")
-			writer.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(writer).Encode(web.Response{
-				Code:   http.StatusBadRequest,
-				Status: "Bad Request",
-				Data:   err.Error(),
-			})
-			return
-		}
+		fmt.Println("err", err)
 		writer.Header().Set("Content-Type", "application/json")
 		writer.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(writer).Encode(web.Response{
+			//membuat standart response
 			Code:   http.StatusInternalServerError,
 			Status: "internal server error",
 			Data:   nil,
 		})
 		return
 	}
-
+	// //mencetak header json dan melakukan proses encoding
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(web.Response{
+		//membuat standart response
 		Code:   http.StatusCreated,
 		Status: "Create",
 		Data:   response,

@@ -9,7 +9,6 @@ import (
 	"medsos/service"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -26,56 +25,29 @@ func NewUserController(userService service.UserService) UserController {
 // create
 func (controller *userControllerImp) Create(writer http.ResponseWriter, request *http.Request) {
 	// //membaca request body
-	// decoder := json.NewDecoder(request.Body)
-	// //mengembalikan result, result diambil dari model web
-	// result := web.UserCreateRequest{}
-	// err := decoder.Decode(&result)
-	// helper.PanicIfError(err)
-
-	// //memanggil service dan mengembalikan response
-	// response := controller.userService.Create(request.Context(), result)
-
-	// //membuat standart respose
-	// webResponse := web.Response{
-	// 	Code:   http.StatusCreated,
-	// 	Status: http.StatusText(http.StatusCreated),
-	// 	Data:   response,
-	// }
-	// writer.Header().Add("Content-Type", "application/json")
-	// writer.WriteHeader(http.StatusCreated)
-	// //proses mengubah data menjadi format lain
-	// encoder := json.NewEncoder(writer)
-	// err = encoder.Encode(webResponse)
-	// helper.PanicIfError(err)
 	decoder := json.NewDecoder(request.Body)
-	userReq := web.UserCreateRequest{}
+	// membuat sebuah Var,  diambil dari model web
+	var userReq web.UserCreateRequest
 	err := decoder.Decode(&userReq)
 	if err != nil {
 		writer.Header().Set("content-type", "application/json")
 		writer.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(writer).Encode(web.Response{
+			//membuat standart respose
 			Code:   http.StatusBadRequest,
 			Status: "Bad request",
 			Data:   "invalid",
 		})
 		return
 	}
-
+	//memanggil service dan mengembalikan response
 	response, err := controller.userService.Create(request.Context(), userReq)
 	if err != nil {
-		if strings.HasPrefix(err.Error(), "validasi") {
-			writer.Header().Set("content-type", "application/json")
-			writer.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(writer).Encode(web.Response{
-				Code:   http.StatusBadRequest,
-				Status: "Data Error",
-				Data:   err.Error(),
-			})
-			return
-		}
+		fmt.Println("err", err)
 		writer.Header().Set("content-type", "application/json")
 		writer.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(writer).Encode(web.Response{
+			//membuat standart respose
 			Code:   http.StatusInternalServerError,
 			Status: "internal server error",
 			Data:   nil,
@@ -86,6 +58,7 @@ func (controller *userControllerImp) Create(writer http.ResponseWriter, request 
 	writer.Header().Set("content-type", "application/jso")
 	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(web.Response{
+		//membuat standart respose
 		Code:   http.StatusCreated,
 		Status: "created",
 		Data:   response,

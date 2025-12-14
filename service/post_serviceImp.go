@@ -18,11 +18,6 @@ func NewPostService(postRepository repository.PostRepository) PostService {
 	return &postServiceImp{PostRepository: postRepository}
 }
 func (service *postServiceImp) Create(ctx context.Context, request web.PostCreateRequest) (web.PostResponse, error) {
-	//validasi title
-	if request.Title == "" {
-		return web.PostResponse{}, fmt.Errorf("title title tidak boleh kosong")
-	}
-
 	// tampung model domain dalam sebuah variabel
 	post := domain.Post{
 		User_Id:    request.User_Id,

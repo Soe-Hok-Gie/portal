@@ -43,7 +43,7 @@ func (service *postServiceImp) Create(ctx context.Context, request web.PostCreat
 
 }
 
-func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdateRequest) web.PostResponse {
+func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdateRequest) (web.PostResponse, error) {
 	// tampung model domain dalam sebuah variabel
 	post := domain.Post{
 		Id:      request.Id,
@@ -53,7 +53,10 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 	}
 
 	//panggil service
-	post = service.PostRepository.Update(ctx, post)
+	post, err := service.PostRepository.Update(ctx, post)
+	if err != nil {
+		return web.PostResponse{}, fmt.Errorf("failed to update post: %w", err)
+	}
 
 	// tampung model web response dalam sebuah variabel
 	postResponse := web.PostResponse{
@@ -62,7 +65,7 @@ func (service *postServiceImp) Update(ctx context.Context, request web.PostUpdat
 		Title:   post.Title,
 		Content: post.Content,
 	}
-	return postResponse
+	return postResponse, nil
 
 }
 

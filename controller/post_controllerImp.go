@@ -67,35 +67,54 @@ func (controller *postControllerImp) Create(writer http.ResponseWriter, request 
 }
 
 func (controller *postControllerImp) Update(writer http.ResponseWriter, request *http.Request) {
+	//mencetak header
+	writer.Header().Set("Content-Type", "application/json")
 	//ambil dan convert id
 	vars := mux.Vars(request)
 	idString := vars["id"]
 	id, err := strconv.Atoi(idString)
-	helper.PanicIfError(err)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(writer).Encode(web.Response{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Data:   "invalid id parameter",
+		})
+		return
+	}
 
 	//buat var untuk menampung web.postupdaterequest
-	// Dekode data JSON dari body permintaan
-	var post web.PostUpdateRequest
-	err = json.NewDecoder(request.Body).Decode(&post)
-	helper.PanicIfError(err)
-
+	var postReq web.PostUpdateRequest
+	if err := json.NewDecoder(request.Body).Decode(&postReq); err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(writer).Encode(web.Response{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Data:   "invalid request body",
+		})
+		return
+	}
 	//simpan id sebelum dipassing
-	post.Id = id
-
+	postReq.Id = id
 	//panggil service
-	response := controller.postService.Update(request.Context(), post)
-
-	//membuat standar response
-	webResponse := web.Response{
+	response, err := controller.postService.Update(request.Context(), postReq)
+	if err != nil {
+		// Tanpa mapping error, langsung return Internal Server Error
+		fmt.Println("err:", err) // optional logging
+		writer.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(writer).Encode(web.Response{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Data:   nil,
+		})
+		return
+	}
+	writer.WriteHeader(http.StatusOK)
+	json.NewEncoder(writer).Encode(web.Response{
 		Code:   http.StatusOK,
 		Status: "Ok",
 		Data:   response,
-	}
-	//mencetak header dan melakukan proses encoding
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err = encoder.Encode(webResponse)
-	helper.PanicIfError(err)
+	})
 
 }
 
